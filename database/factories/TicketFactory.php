@@ -21,8 +21,19 @@ class TicketFactory extends Factory
      */
     public function definition()
     {
+        $placeType = [
+            "балкон",
+            "ложа",
+            "бельэтаж",
+            "vip",
+        ];
+        $status = 'есть в наличии';
         return [
-            //
+            'row' => $this->faker->numberBetween(1, 10),
+            'placeNum' => $this->faker->numberBetween(1, 20),
+            'cost' => $this->faker->randomFloat(3, 3),
+            'placeType' => $placeType[random_int(0, 3)],
+            'status' => $status,
         ];
     }
 }

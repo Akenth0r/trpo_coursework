@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container shadow p-4 rounded">
-        <h2>Афиша</h2>
+        <h2>{{$user->priviledge == 1 ? "Заказы" : "Мои заказы"}}</h2>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -11,17 +11,16 @@
                 <th>Число билетов</th>
                 <th>Адрес</th>
                 <th>Дата проведения</th>
-                <th>Количество билетов</th>
             </tr>
             </thead>
             @foreach ($orders as $order)
                 <tr>
-                    <!-- Название -->
+                    <!-- Пользователь -->
                     <td>
-                        <a href="{{ route('orders.show', ['order' => $order->id]) }}">{{ $order->title }}</a>
+                        <a href="{{ route('orders.show', ['order' => $order->id]) }}">{{ "{$order->user->lastname} {$order->user->firstname}" }}</a>
                         @if ($user->priviledge == 1)
-                            <a href="{{route('orders.edit', compact('order'))}}" class="mx-1"><span class="fas fa-edit text-dark"></span></a>
-                            <a href="" onclick="order.prorderDefault(); document.getElementById('delete-form-{{$order->id}}').submit()">
+                            <a href="{{route('orders.edit', ['order' => $order])}}" class="mx-1"><span class="fas fa-edit text-dark"></span></a>
+                            <a href="" onclick="event.preventDefault(); document.getElementById('delete-form-{{$order->id}}').submit()">
                                 <span class="fas fa-trash text-dark"></span>
                             </a>
                             <form action="{{route('orders.destroy', compact('order'))}}" method="post" id="delete-form-{{$order->id}}" class="d-none">
@@ -30,32 +29,25 @@
                             </form>
                         @endif
                     </td>
-                    <!-- Тип -->
+                    <!-- Номер телефона -->
                     <td>
-                        {{$order->type}}
+                        {{$order->user->phone}}
                     </td>
-                    <!-- Место проведения -->
+                    <!-- Число билетов -->
                     <td>
-                        {{$order->place}}
+                        {{$order->tickets->count()}}
+                    </td>
+                    <!-- Адрес -->
+                    <td>
+                        {{$order->event->place}}
                     </td>
                     <!-- Дата проведения -->
                     <td>
-                        {{$order->date}}
-                    </td>
-                    <!-- Количество билетов -->
-                    <td>
-                        {{$order->ticketsCount}}
+                        {{$order->event->place}}
                     </td>
                 </tr>
             @endforeach
         </table>
-        @if ($user->priviledge == 1)
-            <div class=" pb-2">
-                <div class="col-12 pb-3">
-                    <a href="{{route("orders.create")}}" class="btn btn-outline-dark"> Добавить мероприятие </a>
-                </div>
-            </div>
-        @endif
         <div class="row">
             <div class="col-12">
                 {{$orders->links()}}

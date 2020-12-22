@@ -25,4 +25,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/events', EventController::class)->where(["event" => "\d+"]);
 Route::resource('/orders', OrderController::class)->where(["order" => "\d+"]);
-Route::resource('/tickets', TicketController::class)->where(["order" => "\d+"])->except(['index','show']);
+Route::resource('/tickets', TicketController::class)->where(["ticket" => "\d+"])->except(['index','show']);

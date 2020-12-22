@@ -20,6 +20,7 @@
                 <a href="{{ route('events.show', ['event' => $event->id]) }}">{{ $event->title }}</a>
                 @if ($user->priviledge == 1)
                 <a href="{{route('events.edit', compact('event'))}}" class="mx-1"><span class="fas fa-edit text-dark"></span></a>
+                @if ($event->orders->count() == 0)
                 <a href="" onclick="event.preventDefault(); document.getElementById('delete-form-{{$event->id}}').submit()">
                     <span class="fas fa-trash text-dark"></span>
                 </a>
@@ -27,6 +28,7 @@
                     @csrf
                     @method('delete')
                 </form>
+                @endif
                     <a href="{{route("tickets.create", compact('event'))}}" >
                         <span class="fa fa-ticket text-dark"></span>
                     </a>

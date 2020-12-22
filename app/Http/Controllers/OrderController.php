@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
+use App\Models\Event;
 use App\Models\Order;
+use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +24,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return response(view("orders.index"));
+        $user = auth()->user();
+        $orders = Order::query();
+        if ($user->priviledge == 0)
+            $orders = $orders->where('user_id', '=', $user->id);
+        $orders = $orders->simplePaginate(10);
+        return response(view("orders.index", ['orders' => $orders, 'user' => $user]));
     }
 
     /**
@@ -25,19 +39,30 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return response(view("orders.create"));
+        $user = User::findOrFail(request()->get('user'));
+        $event = Event::findOrFail(request()->get('event'));
+        return response(view("orders.create", ["user" => $user, "event" => $event]));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param OrderRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(OrderRequest $request)
     {
-        $order = new Order($request->all());
+        $tickets = $request->all()['tickets'];
+        $order = new Order(
+            $request->validated()
+        );
         $order->save();
+        Ticket::query()->whereIn('id', $tickets)->update(
+            [
+                'status' => 'забронирован',
+                'order_id' => $order->id,
+            ]
+        );
         return response(redirect(route("orders.index")));
     }
 

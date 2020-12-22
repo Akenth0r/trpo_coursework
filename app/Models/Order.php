@@ -9,15 +9,14 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "ticketsCount",
+        "user_id",
+        "event_id",
         "addr",
         "far",
         "status",
+        "delivery_status",
     ];
-    protected $hidden = [
-            "event",
-            "user",
-        ];
+
 
     public function user()
     {

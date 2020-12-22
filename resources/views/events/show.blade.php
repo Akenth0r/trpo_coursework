@@ -61,8 +61,12 @@
 
             <!-- Buttons -->
             @if (auth()->user()->priviledge == 0)
-            <a class="btn btn-outline-dark" href="{{route("orders.create", ["user" => auth()->user(), "event" => $event])}}">
-                Сделать заказ
+                @if ( $event->tickets->where('status', '=', 'есть в наличии')->count() > 0)
+                <a class="btn btn-outline-dark" href="{{route("orders.create", ["user" => auth()->user(), "event" => $event])}}">
+                    Сделать заказ
+                @else
+                    <h3> Нет доступных билетов </h3>
+                @endif
             </a>
             @else
                 <a class="btn btn-outline-dark" href="{{route("orders.index", ['event' => $event])}}">

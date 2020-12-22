@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Event;
+use App\Models\Ticket;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
@@ -16,6 +17,8 @@ class EventSeeder extends Seeder
     {
         Event::factory()
             ->times(50)
-            ->create();
+            ->create()->each(function ($event) {
+                $event->tickets()->saveMany(Ticket::factory()->times(random_int(20, 30))->make());
+            });
     }
 }

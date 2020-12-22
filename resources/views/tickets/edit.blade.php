@@ -62,11 +62,11 @@
                     <div class="col-md-6 p-0">
                         <label class="form-check-label" for="placeType">Тип места</label>
                         <select name="placeType" id="placeType" class="form-control" >
-                            <option value="партер" @if ($ticket->placeType == "партер") selected @endif>партер</option>
-                            <option value="балкон" @if ($ticket->placeType == "балкон") selected @endif>балкон</option>
-                            <option value="ложа" @if ($ticket->placeType == "ложа") selected @endif>ложа</option>
+                            <option value="партер"   @if ($ticket->placeType == "партер")   selected @endif>партер</option>
+                            <option value="балкон"   @if ($ticket->placeType == "балкон")   selected @endif>балкон</option>
+                            <option value="ложа"     @if ($ticket->placeType == "ложа")     selected @endif>ложа</option>
                             <option value="бельэтаж" @if ($ticket->placeType == "бельэтаж") selected @endif>бельэтаж</option>
-                            <option value="vip" @if ($ticket->placeType == "vip") selected @endif>VIP</option>
+                            <option value="vip"      @if ($ticket->placeType == "vip")      selected @endif>VIP</option>
                         </select>
                     </div>
                 </div>

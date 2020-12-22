@@ -23,8 +23,8 @@ class CreateOrdersTable extends Migration
             $table->string("status");
             $table->string("delivery_status");
 
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('event_id')->references('id')->on('events')->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('event_id')->references('id')->on('events');
             $table->index("user");
             $table->index("event");
         });
